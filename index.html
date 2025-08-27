@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator Pro - Professional QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">⚡ QR Generator Pro</h1>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="glass-card">
+                <!-- QR Type Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs" id="qrTabs">
+                        <button class="tab active" data-type="url">
+                            <span class="tab-icon">🌐</span>
+                            <span>URL/Website</span>
+                        </button>
+                        <button class="tab" data-type="text">
+                            <span class="tab-icon">📝</span>
+                            <span>Plain Text</span>
+                        </button>
+                        <button class="tab" data-type="wifi">
+                            <span class="tab-icon">📶</span>
+                            <span>WiFi</span>
+                        </button>
+                        <button class="tab" data-type="email">
+                            <span class="tab-icon">📧</span>
+                            <span>Email</span>
+                        </button>
+                        <button class="tab" data-type="sms">
+                            <span class="tab-icon">📱</span>
+                            <span>SMS</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Input Section -->
+                    <div class="input-section">
+                        <h2 class="section-title">Generate QR Code</h2>
+                        
+                        <!-- URL/Text Input -->
+                        <div class="input-form active" id="form-url">
+                            <div class="form-group">
+                                <label class="form-label">Enter URL</label>
+                                <input type="url" class="form-control" id="input-url" placeholder="https://example.com">
+                                <div class="input-error" id="error-url"></div>
+                            </div>
+                        </div>
+
+                        <!-- Text Input -->
+                        <div class="input-form" id="form-text">
+                            <div class="form-group">
+                                <label class="form-label">Enter Text</label>
+                                <textarea class="form-control" id="input-text" placeholder="Enter your text here" rows="4"></textarea>
+                                <div class="input-error" id="error-text"></div>
+                            </div>
+                        </div>
+
+                        <!-- WiFi Input -->
+                        <div class="input-form" id="form-wifi">
+                            <div class="form-group">
+                                <label class="form-label">Network Name (SSID)</label>
+                                <input type="text" class="form-control" id="wifi-ssid" placeholder="My WiFi Network" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="wifi-password" placeholder="Enter password (optional)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Security Type</label>
+                                <select class="form-control" id="wifi-security">
+                                    <option value="WPA">WPA/WPA2</option>
+                                    <option value="WEP">WEP</option>
+                                    <option value="">None (Open)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Email Input -->
+                        <div class="input-form" id="form-email">
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email-address" placeholder="email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Subject (Optional)</label>
+                                <input type="text" class="form-control" id="email-subject" placeholder="Email subject">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message (Optional)</label>
+                                <textarea class="form-control" id="email-body" placeholder="Email message" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- SMS Input -->
+                        <div class="input-form" id="form-sms">
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="sms-phone" placeholder="+1234567890" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message (Optional)</label>
+                                <textarea class="form-control" id="sms-message" placeholder="SMS message" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Customization Panel -->
+                        <div class="customization-panel">
+                            <button class="customization-toggle" id="customizationToggle">
+                                <span>⚙️ Customize QR Code</span>
+                                <span class="toggle-arrow">▼</span>
+                            </button>
+                            <div class="customization-content" id="customizationContent">
+                                <div class="custom-grid">
+                                    <div class="custom-group">
+                                        <label class="form-label">Foreground Color</label>
+                                        <input type="color" class="color-input" id="foregroundColor" value="#000000">
+                                    </div>
+                                    <div class="custom-group">
+                                        <label class="form-label">Background Color</label>
+                                        <input type="color" class="color-input" id="backgroundColor" value="#ffffff">
+                                    </div>
+                                    <div class="custom-group">
+                                        <label class="form-label">Size</label>
+                                        <select class="form-control" id="qrSize">
+                                            <option value="128">Small (128px)</option>
+                                            <option value="256" selected>Medium (256px)</option>
+                                            <option value="384">Large (384px)</option>
+                                            <option value="512">Extra Large (512px)</option>
+                                        </select>
+                                    </div>
+                                    <div class="custom-group">
+                                        <label class="form-label">Error Correction</label>
+                                        <select class="form-control" id="errorLevel">
+                                            <option value="L">Low (7%)</option>
+                                            <option value="M" selected>Medium (15%)</option>
+                                            <option value="Q">Quartile (25%)</option>
+                                            <option value="H">High (30%)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Preview -->
+                    <div class="preview-section">
+                        <h2 class="section-title">QR Code Preview</h2>
+                        <div class="qr-preview">
+                            <div class="qr-container" id="qrcode">
+                                <div class="qr-placeholder">
+                                    <div class="qr-icon">📱</div>
+                                    <p>Enter data to generate QR code</p>
+                                </div>
+                            </div>
+                            <div class="loading-spinner" id="loadingSpinner">
+                                <div class="spinner"></div>
+                                <p>Generating QR Code...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Download Section -->
+                        <div class="download-section" id="downloadSection">
+                            <button class="btn btn--primary download-btn" id="downloadBtn">
+                                <span>📥</span> Download PNG
+                            </button>
+                            <button class="btn btn--secondary copy-btn" id="copyBtn">
+                                <span>📋</span> Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast" id="toast">
+            <div class="toast-content">
+                <span class="toast-icon"></span>
+                <span class="toast-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
